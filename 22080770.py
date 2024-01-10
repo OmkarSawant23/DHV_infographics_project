@@ -144,9 +144,7 @@ def lineplot_monthly(selected_entries, grid):
     table = pd.pivot_table(selected_entries_filter, values='quantity',
                            index=['item_name'],
                            columns=['month'], aggfunc="sum")
-    print(table)
-    print(table.iloc[0, :].values)
-    print(table.columns)
+
     # creating the line plot for top sold item and their count in each month.
     sns.lineplot(y=table.iloc[0, :].values, x=table.columns,
                  marker='o', label=table.index[0])
@@ -228,9 +226,6 @@ def data_info():
 
 ###########################Main Function###############################
 merged_df, merged_df_sorted, selected_entries, selected_year = file_name()
-print(merged_df.head)
-print(merged_df_sorted["date_only"])
-print(selected_entries)
 merged_df.to_csv('merged_data.csv', index=False)
 merged_df_sorted.to_csv('sorted_data.csv', index=False)
 selected_entries.to_csv(f'selected_entries_{selected_year}.csv', index=False)
@@ -248,7 +243,6 @@ bar_plot_one(selected_entries, grid)
 data_info()
 # saving the dashboard as png.
 fig.savefig("22080770.png", dpi=300)
-# plt.show()
 # git hub link
 """
 https://github.com/OmkarSawant23/DHV_infographics_project
