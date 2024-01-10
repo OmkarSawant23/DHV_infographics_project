@@ -39,18 +39,14 @@ def file_name(file) :
     
     return merged_df,merged_df_sorted,selected_entries,selected_year
 
-def bar_plot(top_supplier) :
-    # Deciding figure size.
-    plt.figure(figsize=(20, 15))
-    # Producing bar plot using matplotlib.
-    top_sup = selected_entries['supplier'].value_counts().nlargest(5)
+def bar_plot(selected_entries,grid) :
+    plt.subplot(grid[0,0])
+    top_sup = selected_entries['supplier'].value_counts().nlargest(10)
     sns.barplot(x=top_sup.index, y=top_sup)
-    #plt.legend(["DENIMACH LTD","Indo Count Industries Ltd","Friedola 1888 GmbH","CHROMADURLIN S.A.S","HARDFORD AB"],bbox_to_anchor=(1, 0.5))
-    plt.title("Top 5 Suppliers")
+    plt.title("Top 10 Product Suppliers in year 2021")
     plt.xlabel("Supplier")
     plt.ylabel("Frequency")
     plt.xticks(rotation=90)
-    plt.show()
 
 def pie_plot(top_product) :
     top_sold = selected_entries['item_name'].value_counts().nlargest(10)
