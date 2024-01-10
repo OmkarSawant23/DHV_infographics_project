@@ -25,7 +25,6 @@ def file_name(file) :
     merged_df_sorted['date_only'] = merged_df_sorted['date'].dt.date
     merged_df_sorted = merged_df_sorted.drop(columns=['date'])
     selected_year = 2021
-    #selected_entries = merged_df_sorted[merged_df_sorted['year'].merged_df_sorted.year == selected_year]
     selected_entries = merged_df_sorted[merged_df_sorted.year == selected_year]
 
 
@@ -47,33 +46,43 @@ def pie_plot(selected_entries,grid) :
     top_trans_names = trans.index
     top_trans_counts = trans.values
     explode = [0.3, 0, 0]
-    plt.pie(top_trans_counts, labels=top_trans_names, autopct='%1.0f%%', explode = explode)
+    plt.pie(top_trans_counts, labels=top_trans_names, 
+            autopct='%1.0f%%', explode = explode)
     plt.title('Types of Payment Methods used in 2021')
     
 def lineplot_monthly(selected_entries,grid):
     plt.subplot(grid[0,2])
     top_sup = selected_entries['item_name'].value_counts().nlargest(10)
-    selected_entries['date_only'] = pd.to_datetime(selected_entries['date_only'], format='%Y-%m-%d')
-    selected_entries_filter = selected_entries.loc[selected_entries["item_name"].isin(top_sup.index) ]
+    selected_entries['date_only'] = pd.to_datetime(selected_entries['date_only'],
+                                                   format='%Y-%m-%d')
+    selected_entries_filter = selected_entries.loc[selected_entries
+                                            ["item_name"].isin(top_sup.index) ]
     selected_entries_filter['month'] = selected_entries_filter['date_only'].dt.month
-    table = pd.pivot_table(selected_entries_filter, values='quantity', index=['item_name'],
+    table = pd.pivot_table(selected_entries_filter, values='quantity', 
+                           index=['item_name'],
                        columns=['month'], aggfunc="sum")
     print(table)
     selected_entries['month'] = selected_entries['date_only'].dt.month
     monthly_data = selected_entries.groupby('month')['quantity'].sum()
     print(table.iloc[0,:].values)
     print(table.columns)
-    sns.lineplot(y=table.iloc[0,:].values,x=table.columns, marker='o', label = table.index[0] )
-    sns.lineplot(y=table.iloc[1,:].values,x=table.columns, marker='o', label = table.index[1] )
-    sns.lineplot(y=table.iloc[2,:].values,x=table.columns, marker='o', label = table.index[2] )
-    sns.lineplot(y=table.iloc[3,:].values,x=table.columns, marker='o', label = table.index[3] )
-    sns.lineplot(y=table.iloc[4,:].values,x=table.columns, marker='o', label = table.index[4] )
+    sns.lineplot(y=table.iloc[0,:].values,x=table.columns,
+                 marker='o', label = table.index[0] )
+    sns.lineplot(y=table.iloc[1,:].values,x=table.columns,
+                 marker='o', label = table.index[1] )
+    sns.lineplot(y=table.iloc[2,:].values,x=table.columns,
+                 marker='o', label = table.index[2] )
+    sns.lineplot(y=table.iloc[3,:].values,x=table.columns,
+                 marker='o', label = table.index[3] )
+    sns.lineplot(y=table.iloc[4,:].values,x=table.columns,
+                 marker='o', label = table.index[4] )
     plt.title('Monthly Trend for Top Products in year 2021')
     plt.legend()
     plt.xlabel('Months')
     plt.ylabel('Number of Products sold')
-    plt.xticks(range(1, 13), labels=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
-    #plt.show()
+    plt.xticks(range(1, 13), labels=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                                     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+ 
     
 def bar_plot_one(selected_entries,grid) :
     plt.subplot(grid[1,2])
@@ -99,7 +108,8 @@ def data_info() :
      plt.text(0.1 , 0.1 , text , ha='center' , va='center' , fontsize=12,
              fontstyle='italic' , fontweight='bold')
      plt.axis('off')
-     fig.suptitle('E-Commerce Data Analysis for Year 2021' , fontsize=25 , fontweight='bold')
+     fig.suptitle('E-Commerce Data Analysis for Year 2021' ,
+                  fontsize=25 , fontweight='bold')
     
      
 #Main Function
